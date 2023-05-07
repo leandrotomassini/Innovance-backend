@@ -1,0 +1,235 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root {
+    --dark-background: #13161C;
+    --dark-blue-background: #03091e;
+    --background-blue-light: #26314F;
+    --dark-light-blackground: #1c2028;
+    --title-color: #EFF3F8;
+    --text-color-dark: #91AEB4;
+    --border-blue: #1d4f7c;
+    --border-gray: #9ba0a9;
+}
+
+.body {
+    background-color: var(--dark-background);
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding-bottom: 2em;
+}
+
+
+/* Menu */
+
+.header {
+    color: var(--title-color);
+    width: 100%;
+    background-color: var(--dark-light-blackground);
+    padding: 25px;
+    position: fixed;
+    z-index: 1;
+}
+
+.menu {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.menu-buttons-container {
+    width: 30%;
+    display: flex;
+    justify-content: end;
+}
+
+.menu li {
+    list-style: none;
+}
+
+.menu-logo {
+    padding-left: 15px;
+    font-size: 1.5rem;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.menu-create-account {
+    background-color: white;
+    color: var(--dark-light-blackground);
+}
+
+.menu-login {
+    border: 2px solid var(--border-gray);
+}
+
+.button {
+    border-radius: 9px;
+    padding: .5rem;
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.button:focus {
+    border: 3px solid var(--border-blue);
+}
+
+/* End menu */
+
+/* Home welcome */
+.home-welcome {
+    padding-top: 8em;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.home-welcome-title {
+    color: var(--title-color);
+    margin-bottom: 1em;
+    margin-left: 2px;
+    text-align: center;
+}
+
+.prominent-courses-container {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
+    padding: 0;
+}
+
+.prominent-course {
+    min-width: 260px;
+    min-height: 400px;
+    max-width: 260px;
+    max-height: 400px;
+    border-radius: 20px;
+    list-style: none;
+    margin-bottom: 10px;
+    color: white;
+    display: flex;
+    padding: 1em;
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+}
+
+.prominent-course:before {
+    content: '';
+    position: absolute;
+    background: linear-gradient(180deg, #303030 0%, #000000 100%);
+    opacity: 0.5;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.prominent-course:hover:before {
+    opacity: .4;
+}
+
+.prominent-course-title {
+    align-self: flex-end;
+    position: relative;
+}
+
+.see-all-courses-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+}
+
+.see-all-courses-button {
+    padding: .5em 1em .5em 1em;
+    color: var(--title-color);
+    font-size: 1.3rem;
+    border: 1px solid var(--title-color);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* End Home welcome */
+
+/* More courses */
+
+.more-courses {
+    color: var(--title-color);
+    width: 100%;
+    position: relative;
+    margin-top: 3em;
+}
+
+.more-courses h1 {
+    margin-left: 3%;
+}
+
+.more-courses p {
+    color: var(--text-color-dark);
+    margin-left: 3%;
+    margin-bottom: 2%;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.more-courses nav ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
+    gap: 10px;
+}
+
+.more-courses__course {
+    color: white;
+    list-style: none;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 324px;
+    max-height: 324px;
+    border-radius: 5px;
+    background-color: var(--background-blue-light);
+    margin-right: 1em;
+    padding: 1em;
+    margin-bottom: .5em;
+    display: flex;
+    background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+    position: relative;
+}
+
+.more-courses__course:before {
+    content: '';
+    position: absolute;
+    background: linear-gradient(180deg, #0a0101 0%, #000000 100%);
+    opacity: 0.7;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.more-courses__course:hover:before {
+    opacity: .4;
+}
+
+.more-courses__course_description {
+    align-self: flex-end;
+    position: relative;
+}
+
+.more-courses__course_description h3{
+    margin-left: 3%;
+    margin-bottom: 8px;
+}
+
+
+/* End More courses */
