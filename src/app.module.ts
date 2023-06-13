@@ -10,6 +10,7 @@ import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { MessagesWsModule } from './messages-ws/messages-ws.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 
 @Module({
@@ -34,7 +35,8 @@ import { MessagesWsModule } from './messages-ws/messages-ws.module';
       rootPath: join(__dirname, '..', 'public')
     }),
     AuthModule,
-    MessagesWsModule
+    MessagesWsModule,
+    SubscriptionModule,
   ],
   controllers: [],
   providers: [],
