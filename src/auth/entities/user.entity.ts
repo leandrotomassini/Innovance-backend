@@ -1,6 +1,6 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { Product } from "src/products/entities";
+import { SubscriptionPlan } from "src/subscription-plan/entities/subscription-plan.entity";
 
 
 @Entity('users')
@@ -34,10 +34,10 @@ export class User {
     roles: string[];
 
     @OneToMany(
-        () => Product,
-        (product) => product.user
+        () => SubscriptionPlan,
+        (subscriptionPlan) => subscriptionPlan.user
     )
-    product: Product;
+    subscriptionPlan: SubscriptionPlan;
 
     @BeforeInsert()
     checkFieldsBeforeInsert() {
