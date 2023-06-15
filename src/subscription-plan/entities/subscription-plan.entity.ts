@@ -1,36 +1,36 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from 'src/auth/entities/user.entity';
+import { SubscriptorPlan } from 'src/subscriptor-plan/entities/subscriptor-plan.entity';
 
 @Entity()
 export class SubscriptionPlan {
     @PrimaryGeneratedColumn('uuid')
-    id_subscription: string; // Identificador único generado automáticamente para cada plan de suscripción
+    id_subscription: string;
 
     @Column('text')
-    title: string; // Título del plan de suscripción
+    title: string;
 
     @Column('text')
-    description: string; // Descripción del plan de suscripción
+    description: string;
 
     @Column('float')
-    price: number; // Precio del plan de suscripción
+    price: number;
 
     @Column('boolean', {
         default: true
     })
-    status: boolean; // Estado del plan de suscripción (activo o inactivo)
+    status: boolean;
 
     @Column('int')
-    duration: number; // Duración del plan en meses.
+    duration: number;
 
-    @ManyToOne(
-        () => User,
-        (user) => user.subscriptionPlan,
-        { eager: true }
-    )
-    user: User; // Relación muchos a uno con el usuario que creó el plan de suscripción
+    @ManyToOne(() => User, (user) => user.subscriptionPlan, { eager: true })
+    user: User;
+
+    @OneToMany(() => SubscriptorPlan, (subscriptorPlan) => subscriptorPlan.subscriptionPlan)
+    subscriptorPlan: SubscriptorPlan[];
 
     @CreateDateColumn()
-    updatedAt: Date; // Fecha de la última actualización del plan de suscripción
+    updatedAt: Date;
 }

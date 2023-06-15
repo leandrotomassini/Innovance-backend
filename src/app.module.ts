@@ -9,6 +9,7 @@ import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { MessagesWsModule } from './messages-ws/messages-ws.module';
 import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.module';
+import { SubscriptorPlanModule } from './subscriptor-plan/subscriptor-plan.module';
 
 
 @Module({
@@ -33,6 +34,7 @@ import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.mo
     AuthModule,
     MessagesWsModule,
     SubscriptionPlanModule,
+    SubscriptorPlanModule,
   ],
   controllers: [],
   providers: [],

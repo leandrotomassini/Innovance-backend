@@ -1,6 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { SubscriptionPlan } from "src/subscription-plan/entities/subscription-plan.entity";
+import { SubscriptorPlan } from "src/subscriptor-plan/entities/subscriptor-plan.entity";
 
 
 @Entity('users')
@@ -38,6 +39,12 @@ export class User {
         (subscriptionPlan) => subscriptionPlan.user
     )
     subscriptionPlan: SubscriptionPlan;
+
+    @OneToOne(
+        () => SubscriptorPlan,
+        (subscriptorPlan) => subscriptorPlan.user
+    )
+    subscriptorPlan: SubscriptorPlan;
 
     @BeforeInsert()
     checkFieldsBeforeInsert() {
