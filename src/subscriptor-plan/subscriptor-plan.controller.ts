@@ -10,9 +10,12 @@ import { User } from 'src/auth/entities/user.entity';
 export class SubscriptorPlanController {
   constructor(private readonly subscriptorPlanService: SubscriptorPlanService) { }
 
-  @Post()
   @Auth()
-  create(@Body() createSubscriptorPlanDto: CreateSubscriptorPlanDto, @GetUser() user: User) {
+  @Post()
+  create(
+    @Body() createSubscriptorPlanDto: CreateSubscriptorPlanDto,
+    @GetUser() user: User
+  ) {
     return this.subscriptorPlanService.create(createSubscriptorPlanDto, user);
   }
 

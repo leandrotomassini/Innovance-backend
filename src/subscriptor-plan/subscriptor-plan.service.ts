@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { validate as isUUID } from 'uuid';
 
 import { CreateSubscriptorPlanDto } from './dto/create-subscriptor-plan.dto';
 import { UpdateSubscriptorPlanDto } from './dto/update-subscriptor-plan.dto';
 import { SubscriptorPlan } from './entities/subscriptor-plan.entity';
 import { User } from 'src/auth/entities/user.entity';
+import { SubscriptionPlan } from 'src/subscription-plan/entities/subscription-plan.entity';
 
 
 @Injectable()
@@ -16,14 +16,24 @@ export class SubscriptorPlanService {
 
   constructor(
     @InjectRepository(SubscriptorPlan)
-    private readonly subscriptionPlanRepository: Repository<SubscriptorPlan>
+    private readonly subscriptionPlanRepository: Repository<SubscriptorPlan>,
+    private readonly dataSource: DataSource,
   ) { }
 
-  create(createSubscriptorPlanDto: CreateSubscriptorPlanDto, user: User) {
-    console.log({ createSubscriptorPlanDto });
-    return ({
-      createSubscriptorPlanDto
-    });
+  async create(createSubscriptorPlanDto: CreateSubscriptorPlanDto, user: User) {
+    try {
+      const subscriptorPlan = this.subscriptionPlanRepository.create({
+        ...createSubscriptorPlanDto,
+        user: user,
+      });
+
+      await this.subscriptionPlanRepository.save(subscriptorPlan);
+
+      return createSubscriptorPlanDto;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
   }
 
   findAll() {
