@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 
@@ -6,6 +6,7 @@ import { CreateSubscriptorPlanDto } from './dto/create-subscriptor-plan.dto';
 import { UpdateSubscriptorPlanDto } from './dto/update-subscriptor-plan.dto';
 import { User } from 'src/auth/entities/user.entity';
 import { SubscriptorPlan } from './entities/subscriptor-plan.entity';
+import { SubscriptionPlanService } from 'src/subscription-plan/subscription-plan.service';
 
 @Injectable()
 export class SubscriptorPlanService {
@@ -29,28 +30,70 @@ export class SubscriptorPlanService {
       await this.subscriptorRepository.save(subscriptorPlan);
 
       return ({
-        createSubscriptorPlanDto,
-        user
+        subscriptorPlan
       });
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
 
-  findAll() {
-    return `This action returns all subscriptorPlan`;
+  async findAll() {
+
+    const subscriptotsPlan = await this.subscriptorRepository.find({
+      where: { status: true },
+    });
+
+    return subscriptotsPlan;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} subscriptorPlan`;
   }
 
-  update(id: number, updateSubscriptorPlanDto: UpdateSubscriptorPlanDto) {
-    return `This action updates a #${id} subscriptorPlan`;
+  async update(id: string, updateSubscriptorPlanDto: UpdateSubscriptorPlanDto) {
+
+    const { ...toUpdate } = updateSubscriptorPlanDto;
+
+    const subscriptorPlan = await this.subscriptorRepository.preload({ idSubscriptor: id, ...toUpdate });
+
+    if (!subscriptorPlan)
+      throw new NotFoundException(`Subscriptor with id ${id} not found.`);
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      await queryRunner.manager.save(subscriptorPlan);
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+      this.handleDBExceptions(error);
+    }
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} subscriptorPlan`;
+  async remove(id: string) {
+    try {
+      const subscriptorPlan = await this.subscriptorRepository.findOneBy({ idSubscriptor: id });
+
+      if (!subscriptorPlan) {
+        throw new NotFoundException(`Subscription plan with ID '${id}' not found.`);
+      }
+
+      // Desactiva el plan de suscripción y actualiza los campos correspondientes
+      subscriptorPlan.status = false;
+
+      await this.subscriptorRepository.save(subscriptorPlan);
+
+      return {
+        message: `Subscriptor plan with ID '${id}' has been deactivated.`,
+      };
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   /**
@@ -60,6 +103,7 @@ export class SubscriptorPlanService {
  * @throws InternalServerErrorException si ocurre un error inesperado en la base de datos.
  */
   private handleDBExceptions(error: any): never {
+
     if (error.code === '23505') {
       throw new BadRequestException(error.detail);
     }
