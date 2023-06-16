@@ -29,6 +29,7 @@ import { ApplicationSubscriptionModule } from './application-subscription/applic
 import { ApplicationWebModule } from './application-web/application-web.module';
 import { LearningRouteCourseLearningRouteModule } from './learning-route-course-learning-route/learning-route-course-learning-route.module';
 import { LearningRouteModule } from './learning-route/learning-route.module';
+import { CourseSchoolModule } from './course-school/course-school.module';
 
 
 
@@ -74,6 +75,7 @@ import { LearningRouteModule } from './learning-route/learning-route.module';
     ApplicationWebModule,
     LearningRouteCourseLearningRouteModule,
     LearningRouteModule,
+    CourseSchoolModule,
   ],
   controllers: [],
   providers: [],

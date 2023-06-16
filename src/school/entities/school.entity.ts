@@ -19,4 +19,6 @@ export class School {
         default: true
     })
     status: boolean;
+
+    
 }
