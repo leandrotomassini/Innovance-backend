@@ -11,7 +11,6 @@ import { MessagesWsModule } from './messages-ws/messages-ws.module';
 import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.module';
 import { SubscriptorPlanModule } from './subscriptor-plan/subscriptor-plan.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),

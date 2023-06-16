@@ -28,9 +28,7 @@ export class SubscriptionPlan {
     @ManyToOne(() => User, (user) => user.subscriptionPlan, { eager: true })
     user: User;
 
-    @OneToMany(() => SubscriptorPlan, (subscriptorPlan) => subscriptorPlan.subscriptionPlan)
-    subscriptorPlan: SubscriptorPlan[];
-
     @CreateDateColumn()
     updatedAt: Date;
+
 }

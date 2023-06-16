@@ -12,6 +12,7 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule,
   ],
   controllers: [SubscriptorPlanController],
-  providers: [SubscriptorPlanService]
+  providers: [SubscriptorPlanService],
+  exports: [SubscriptorPlanService],
 })
 export class SubscriptorPlanModule {}

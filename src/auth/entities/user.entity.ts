@@ -4,6 +4,7 @@ import { SubscriptionPlan } from "src/subscription-plan/entities/subscription-pl
 import { SubscriptorPlan } from "src/subscriptor-plan/entities/subscriptor-plan.entity";
 
 
+
 @Entity('users')
 export class User {
 
@@ -40,7 +41,7 @@ export class User {
     )
     subscriptionPlan: SubscriptionPlan;
 
-    @OneToOne(
+    @OneToMany(
         () => SubscriptorPlan,
         (subscriptorPlan) => subscriptorPlan.user
     )
