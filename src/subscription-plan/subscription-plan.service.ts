@@ -150,3 +150,9 @@ export class SubscriptionPlanService {
     throw new InternalServerErrorException('Unexpected error, check server logs.');
   }
 }
+
+
+
+// TODO: Guardar el precio en el momento de comprar
+// Chequear que se mantenga el usuario original que compro
+// la subscripción, y no el usuario que actualiza como admin aveces.
