@@ -2,6 +2,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne, Primar
 
 import { SubscriptionPlan } from "src/subscription-plan/entities/subscription-plan.entity";
 import { SubscriptorPlan } from "src/subscriptor-plan/entities/subscriptor-plan.entity";
+import { School } from "src/school/entities/school.entity";
 
 
 
@@ -46,6 +47,12 @@ export class User {
         (subscriptorPlan) => subscriptorPlan.user
     )
     subscriptorPlan: SubscriptorPlan;
+
+    @OneToMany(
+        () => School,
+        (school) => school.user
+    )
+    school: School;
 
     @BeforeInsert()
     checkFieldsBeforeInsert() {

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/entities/user.entity';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class School {
@@ -20,5 +21,12 @@ export class School {
     })
     status: boolean;
 
-    
+    @ManyToOne(
+        () => User,
+        (user) => user.school
+    )
+    user: User;
+
+    @CreateDateColumn()
+    updatedAt: Date;
 }

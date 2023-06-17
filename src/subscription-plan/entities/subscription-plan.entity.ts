@@ -6,7 +6,7 @@ import { SubscriptorPlan } from 'src/subscriptor-plan/entities/subscriptor-plan.
 @Entity()
 export class SubscriptionPlan {
     @PrimaryGeneratedColumn('uuid')
-    id_subscription: string;
+    isSubscription: string;
 
     @Column('text')
     title: string;

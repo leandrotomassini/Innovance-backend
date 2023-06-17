@@ -12,8 +12,6 @@ import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.mo
 import { SubscriptorPlanModule } from './subscriptor-plan/subscriptor-plan.module';
 import { SchoolModule } from './school/school.module';
 import { CourseModule } from './course/course.module';
-import { SectionModule } from './section/section.module';
-import { VideoModule } from './video/video.module';
 import { ResourceCourseModule } from './resource-course/resource-course.module';
 import { InstructorModule } from './instructor/instructor.module';
 import { AskVideoModule } from './ask-video/ask-video.module';
@@ -30,6 +28,8 @@ import { ApplicationWebModule } from './application-web/application-web.module';
 import { LearningRouteCourseLearningRouteModule } from './learning-route-course-learning-route/learning-route-course-learning-route.module';
 import { LearningRouteModule } from './learning-route/learning-route.module';
 import { CourseSchoolModule } from './course-school/course-school.module';
+import { SectionCourseModule } from './section-course/section-course.module';
+import { VideoCourseModule } from './video-course/video-course.module';
 
 
 
@@ -58,8 +58,6 @@ import { CourseSchoolModule } from './course-school/course-school.module';
     SubscriptorPlanModule,
     SchoolModule,
     CourseModule,
-    SectionModule,
-    VideoModule,
     ResourceCourseModule,
     InstructorModule,
     AskVideoModule,
@@ -76,6 +74,8 @@ import { CourseSchoolModule } from './course-school/course-school.module';
     LearningRouteCourseLearningRouteModule,
     LearningRouteModule,
     CourseSchoolModule,
+    SectionCourseModule,
+    VideoCourseModule,
   ],
   controllers: [],
   providers: [],

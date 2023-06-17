@@ -61,7 +61,7 @@ export class SubscriptionPlanService {
     let subscriptionPlan: SubscriptionPlan;
 
     if (isUUID(id)) {
-      subscriptionPlan = await this.subscriptionRepository.findOneBy({ id_subscription: id });
+      subscriptionPlan = await this.subscriptionRepository.findOneBy({ isSubscription: id });
     } else {
       throw new NotFoundException(`Id: ${id} not found.`);
     }
@@ -85,7 +85,7 @@ export class SubscriptionPlanService {
    */
   async update(id: string, updateSubscriptionPlanDto: UpdateSubscriptionPlanDto, user: User) {
     try {
-      const subscriptionPlan = await this.subscriptionRepository.findOneBy({ id_subscription: id });
+      const subscriptionPlan = await this.subscriptionRepository.findOneBy({ isSubscription: id });
 
       if (!subscriptionPlan) {
         throw new NotFoundException(`Subscription plan with ID '${id}' not found.`);
@@ -114,7 +114,7 @@ export class SubscriptionPlanService {
    */
   async remove(id: string, user: User) {
     try {
-      const subscriptionPlan = await this.subscriptionRepository.findOneBy({ id_subscription: id });
+      const subscriptionPlan = await this.subscriptionRepository.findOneBy({ isSubscription: id });
 
       if (!subscriptionPlan) {
         throw new NotFoundException(`Subscription plan with ID '${id}' not found.`);
