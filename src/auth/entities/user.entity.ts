@@ -1,9 +1,11 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-import { SubscriptionPlan } from "src/subscription-plan/entities/subscription-plan.entity";
-import { SubscriptorPlan } from "src/subscriptor-plan/entities/subscriptor-plan.entity";
-import { School } from "src/school/entities/school.entity";
-
+import { SubscriptionPlan } from 'src/subscription-plan/entities/subscription-plan.entity';
+import { SubscriptorPlan } from 'src/subscriptor-plan/entities/subscriptor-plan.entity';
+import { School } from 'src/school/entities/school.entity';
+import { SchoolTaken } from 'src/school-taken/entities/school-taken.entity';
+import { Notification } from 'src/notification/entities/notification.entity';
+import { CertificateSchool } from "src/certificate-school/entities/certificate-school.entity";
 
 
 @Entity('users')
@@ -54,6 +56,25 @@ export class User {
     )
     school: School;
 
+    @OneToMany(
+        () => SchoolTaken,
+        (schoolTaken) => schoolTaken.user
+    )
+    schoolTaken: SchoolTaken;
+
+
+    @OneToMany(
+        () => Notification,
+        (notification) => notification.user
+    )
+    notification: Notification;
+
+    @OneToMany(
+        () => CertificateSchool,
+        (certificateSchool) => certificateSchool.user
+    )
+    certificateSchool: CertificateSchool;
+
     @BeforeInsert()
     checkFieldsBeforeInsert() {
         this.email = this.email.toLowerCase().trim();
@@ -64,3 +85,5 @@ export class User {
         this.checkFieldsBeforeInsert();
     }
 }
+
+// TODO: Agregar los typeorm en module

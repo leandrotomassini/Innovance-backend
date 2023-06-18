@@ -1,5 +1,9 @@
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { User } from 'src/auth/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { SchoolTaken } from 'src/school-taken/entities/school-taken.entity';
+import { CertificateSchool } from 'src/certificate-school/entities/certificate-school.entity';
+
 
 @Entity()
 export class School {
@@ -16,17 +20,30 @@ export class School {
     @Column('text')
     slug: string;
 
+    @CreateDateColumn()
+    updatedAt: Date;
+   
     @Column('boolean', {
         default: true
     })
     status: boolean;
 
-    @ManyToOne(
+    @OneToMany(
         () => User,
         (user) => user.school
     )
     user: User;
 
-    @CreateDateColumn()
-    updatedAt: Date;
+    @ManyToOne(
+        () => CertificateSchool,
+        (certificateSchool) => certificateSchool.school
+    )
+    certificateSchool: CertificateSchool;
+
+   @OneToMany(
+    () => SchoolTaken,
+    (schoolTaken) => schoolTaken.school
+   )
+   schoolTaken: SchoolTaken;
+
 }
