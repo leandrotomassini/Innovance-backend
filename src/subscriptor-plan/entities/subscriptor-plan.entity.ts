@@ -1,6 +1,7 @@
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+
 import { User } from 'src/auth/entities/user.entity';
 import { SubscriptionPlan } from 'src/subscription-plan/entities/subscription-plan.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class SubscriptorPlan {
@@ -24,5 +25,5 @@ export class SubscriptorPlan {
         (subscriptionPlan) => subscriptionPlan.subscriptorPlan,
         { eager: true }
     )
-    subscriptionPlan: SubscriptorPlan
+    subscriptionPlan: SubscriptionPlan;
 }

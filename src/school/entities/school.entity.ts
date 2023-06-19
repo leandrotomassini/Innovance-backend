@@ -3,6 +3,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 import { User } from 'src/auth/entities/user.entity';
 import { SchoolTaken } from 'src/school-taken/entities/school-taken.entity';
 import { CertificateSchool } from 'src/certificate-school/entities/certificate-school.entity';
+import { CourseSchool } from 'src/course-school/entities/course-school.entity';
 
 
 @Entity()
@@ -46,4 +47,10 @@ export class School {
    )
    schoolTaken: SchoolTaken;
 
+
+   @OneToMany(
+    () => CourseSchool,
+    (courseSchool) => courseSchool.school
+   )
+   courseSchool: CourseSchool;
 }

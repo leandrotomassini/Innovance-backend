@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 
 import { User } from 'src/auth/entities/user.entity';
 import { SubscriptorPlan } from 'src/subscriptor-plan/entities/subscriptor-plan.entity';
+import { ApplicationSubscription } from 'src/application-subscription/entities/application-subscription.entity';
 
 @Entity()
 export class SubscriptionPlan {
@@ -36,5 +37,11 @@ export class SubscriptionPlan {
 
     @CreateDateColumn()
     updatedAt: Date;
+
+    @OneToMany(
+        () => ApplicationSubscription,
+        (applicationSubscription) => applicationSubscription.subscriptionPlan
+    )
+    applicationSubscription: ApplicationSubscription;
 
 }

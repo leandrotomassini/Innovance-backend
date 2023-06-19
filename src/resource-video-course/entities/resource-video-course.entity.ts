@@ -1,34 +1,26 @@
+import { VideoCourse } from 'src/video-course/entities/video-course.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User } from 'src/auth/entities/user.entity';
-import { VideoCourse } from 'src/video-course/entities/video-course.entity';
-
 @Entity()
-export class AskVideo {
+export class ResourceVideoCourse {
 
     @PrimaryGeneratedColumn('uuid')
-    idAskVideo: string;
-
-
-    @ManyToOne(
-        () => User,
-        (user) => user.askVideo
-    )
-    user: User;
+    idResourceVideoCourse: string;
 
     @ManyToOne(
         () => VideoCourse,
-        (videoCourse) => videoCourse.askVideo
+        (videoCourse) => videoCourse.resourceVideoCourse
     )
     videoCourse: VideoCourse;
 
     @Column('text')
     title: string;
 
-
     @Column('text')
     description: string;
 
+    @Column('text')
+    url: string;
 
     @Column('boolean', {
         default: true
