@@ -7,6 +7,7 @@ import { UpdateSubscriptorPlanDto } from './dto/update-subscriptor-plan.dto';
 import { User } from 'src/auth/entities/user.entity';
 import { SubscriptorPlan } from './entities/subscriptor-plan.entity';
 import { SubscriptionPlanService } from 'src/subscription-plan/subscription-plan.service';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class SubscriptorPlanService {
@@ -46,8 +47,20 @@ export class SubscriptorPlanService {
     return subscriptotsPlan;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} subscriptorPlan`;
+  async findOne(id: string) {
+    let subscriptorPlan: SubscriptorPlan;
+
+    if (isUUID(id)) {
+      subscriptorPlan = await this.subscriptorRepository.findOneBy({ idSubscriptor: id });
+    } else {
+      throw new NotFoundException(`Id: ${id} not found.`);
+    }
+
+    if (!subscriptorPlan) {
+      throw new NotFoundException(`Subscriptor with id: ${id}, not found.`);
+    }
+
+    return subscriptorPlan;
   }
 
   async update(id: string, updateSubscriptorPlanDto: UpdateSubscriptorPlanDto) {
