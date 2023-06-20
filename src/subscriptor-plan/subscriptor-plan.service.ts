@@ -6,7 +6,6 @@ import { CreateSubscriptorPlanDto } from './dto/create-subscriptor-plan.dto';
 import { UpdateSubscriptorPlanDto } from './dto/update-subscriptor-plan.dto';
 import { User } from 'src/auth/entities/user.entity';
 import { SubscriptorPlan } from './entities/subscriptor-plan.entity';
-import { SubscriptionPlanService } from 'src/subscription-plan/subscription-plan.service';
 import { isUUID } from 'class-validator';
 
 @Injectable()

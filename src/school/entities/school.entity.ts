@@ -23,13 +23,13 @@ export class School {
 
     @CreateDateColumn()
     updatedAt: Date;
-   
+
     @Column('boolean', {
         default: true
     })
     status: boolean;
 
-    @OneToMany(
+    @ManyToOne(
         () => User,
         (user) => user.school
     )
@@ -41,16 +41,16 @@ export class School {
     )
     certificateSchool: CertificateSchool;
 
-   @OneToMany(
-    () => SchoolTaken,
-    (schoolTaken) => schoolTaken.school
-   )
-   schoolTaken: SchoolTaken;
+    @OneToMany(
+        () => SchoolTaken,
+        (schoolTaken) => schoolTaken.school
+    )
+    schoolTaken: SchoolTaken;
 
 
-   @OneToMany(
-    () => CourseSchool,
-    (courseSchool) => courseSchool.school
-   )
-   courseSchool: CourseSchool;
+    @OneToMany(
+        () => CourseSchool,
+        (courseSchool) => courseSchool.school
+    )
+    courseSchool: CourseSchool;
 }

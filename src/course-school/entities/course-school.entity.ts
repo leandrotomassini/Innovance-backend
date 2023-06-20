@@ -1,6 +1,7 @@
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Course } from 'src/course/entities/course.entity';
 import { School } from 'src/school/entities/school.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class CourseSchool {
