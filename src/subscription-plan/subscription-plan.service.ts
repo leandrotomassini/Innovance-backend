@@ -10,6 +10,7 @@ import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class SubscriptionPlanService {
+  
   private readonly logger = new Logger('SubscriptionPlanService');
 
   constructor(

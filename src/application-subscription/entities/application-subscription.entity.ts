@@ -1,4 +1,3 @@
-import { Subscription } from 'rxjs';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { ApplicationWeb } from '../../application-web/entities/application-web.entity';
@@ -10,7 +9,8 @@ export class ApplicationSubscription {
     @PrimaryGeneratedColumn('uuid')
     idApplicationSubscription: string;
 
-    subscription: Subscription;
+    @Column('text')
+    subscription: SubscriptionPlan;
 
     @ManyToOne(
         () => ApplicationWeb,

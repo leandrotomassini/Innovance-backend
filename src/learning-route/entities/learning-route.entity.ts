@@ -19,6 +19,11 @@ export class LearningRoute {
     title: string;
 
     @Column('boolean', {
+        default: false
+    })
+    isOfficialRoute: boolean;
+
+    @Column('boolean', {
         default: true
     })
     isPrivate: boolean;

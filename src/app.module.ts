@@ -20,7 +20,6 @@ import { CertificateCourseModule } from './certificate-course/certificate-course
 import { SchoolTakenModule } from './school-taken/school-taken.module';
 import { NotificationModule } from './notification/notification.module';
 import { CertificateSchoolModule } from './certificate-school/certificate-school.module';
-import { CourseLearningRouteModule } from './course-learning-route/course-learning-route.module';
 import { CourseInstructorModule } from './course-instructor/course-instructor.module';
 import { ApplicationSubscriptionModule } from './application-subscription/application-subscription.module';
 import { ApplicationWebModule } from './application-web/application-web.module';
@@ -67,7 +66,6 @@ import { SectionCourseVideoModule } from './section-course-video/section-course-
     SchoolTakenModule,
     NotificationModule,
     CertificateSchoolModule,
-    CourseLearningRouteModule,
     CourseInstructorModule,
     ApplicationSubscriptionModule,
     ApplicationWebModule,

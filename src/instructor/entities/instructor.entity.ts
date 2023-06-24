@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+
 import { CourseInstructor } from '../../course-instructor/entities/course-instructor.entity';
 import { User } from 'src/auth/entities/user.entity';
 

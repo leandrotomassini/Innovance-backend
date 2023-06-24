@@ -1,6 +1,8 @@
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Course } from 'src/course/entities/course.entity';
 import { Instructor } from 'src/instructor/entities/instructor.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 
 @Entity()
 export class CourseInstructor {

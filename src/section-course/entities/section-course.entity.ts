@@ -18,15 +18,17 @@ export class SectionCourse {
     @Column('text')
     sectionNumber: string;
 
+    @Column('text')
+    title: string;
+
     @Column('boolean', {
         default: true
     })
     status: boolean;
 
-
     @OneToMany(
-    () => SectionCourseVideo,
-    (sectionCourseVideo) => sectionCourseVideo.sectionCourse        
+        () => SectionCourseVideo,
+        (sectionCourseVideo) => sectionCourseVideo.sectionCourse
     )
     sectionCourseVideo: SectionCourseVideo;
 
