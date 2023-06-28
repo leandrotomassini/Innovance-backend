@@ -120,3 +120,4 @@ export class CourseSchoolService {
     throw new InternalServerErrorException('Unexpected error, check server logs.');
   }
 }
+// TODO: Probar con postman
