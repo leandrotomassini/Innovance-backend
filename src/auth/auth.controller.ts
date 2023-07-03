@@ -36,6 +36,13 @@ export class AuthController {
     return this.authService.checkAuthStatus(user);
   }
 
+  @Get('users')
+  @Auth(validRoles.admin)
+  allUsers(){
+    return this.authService.allUsers();
+  }
+
+
   @Get('private')
   @UseGuards(AuthGuard())
   testingPrivateRoute(

@@ -76,6 +76,15 @@ export class AuthService {
 
   }
 
+  async allUsers() {
+    const users = await this.userRepository
+      .find({
+        where: { isActive: true },
+      });
+
+    return users;
+  }
+
 
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
@@ -92,5 +101,7 @@ export class AuthService {
     throw new InternalServerErrorException('Please check server logs.');
 
   }
+
+
 
 }
