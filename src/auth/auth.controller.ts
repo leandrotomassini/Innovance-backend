@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Headers, SetMetadata } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Headers, SetMetadata, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IncomingHttpHeaders } from 'http';
 import { ApiTags } from '@nestjs/swagger';
@@ -38,10 +38,15 @@ export class AuthController {
 
   @Get('users')
   @Auth(validRoles.admin)
-  allUsers(){
+  allUsers() {
     return this.authService.allUsers();
   }
 
+  @Auth(validRoles.admin)
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.authService.findOne(id)
+  }
 
   @Get('private')
   @UseGuards(AuthGuard())

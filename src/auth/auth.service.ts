@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
@@ -9,6 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { isUUID } from 'class-validator';
 
 
 @Injectable()
@@ -102,6 +103,21 @@ export class AuthService {
 
   }
 
+  async findOne(id: string) {
 
+    let user: User;
+
+    if (isUUID(id)) {
+      user = await this.userRepository.findOneBy({ id });
+    } else {
+      throw new NotFoundException(`Id: ${id} not found.`);
+    }
+
+    if (!user) {
+      throw new NotFoundException(`User with id: ${id}, not found.`);
+    }
+
+    return user;
+  }
 
 }
