@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Headers, SetMetadata, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Headers, SetMetadata, Param, Patch } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IncomingHttpHeaders } from 'http';
 import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/user.entity';
 import { RawHeaders, GetUser, Auth } from './decorators';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
@@ -46,6 +46,12 @@ export class AuthController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(id)
+  }
+
+  @Auth(validRoles.admin)
+  @Patch(':id')
+  updateById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.authService.updateById(id, updateUserDto)
   }
 
   @Get('private')

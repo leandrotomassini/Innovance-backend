@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
@@ -7,13 +7,15 @@ import * as bcrypt from 'bcrypt';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
-import { LoginUserDto } from './dto';
+import { LoginUserDto, UpdateUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { isUUID } from 'class-validator';
 
 
 @Injectable()
 export class AuthService {
+
+  private readonly logger = new Logger('AuthService');
 
   constructor(
     @InjectRepository(User)
@@ -120,4 +122,32 @@ export class AuthService {
     return user;
   }
 
+  async updateById(id: string, updateUserDto: UpdateUserDto) {
+    try {
+
+      const user = await this.userRepository.findOneBy({ id });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID '${id}' not found.`);
+      }
+
+      Object.assign(user, updateUserDto);
+
+      await this.userRepository.save(user);
+
+      return user;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+  }
+
+  private handleDBExceptions(error: any): never {
+
+    if (error.code === '23505') {
+      throw new BadRequestException(error.detail);
+    }
+
+    this.logger.error(error);
+    throw new InternalServerErrorException('Unexpected error, check server logs.');
+  }
 }
