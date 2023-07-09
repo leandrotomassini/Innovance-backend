@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 import { User } from 'src/auth/entities/user.entity';
 
@@ -10,7 +10,7 @@ export class CreateInstructorDto {
     @IsString()
     title: string;
     
-    @IsString()
+    @IsUUID()
     user: User;
 
 }

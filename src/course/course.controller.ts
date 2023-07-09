@@ -5,7 +5,6 @@ import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Auth, GetUser } from 'src/auth/decorators';
 import { validRoles } from 'src/auth/interfaces';
-import { userInfo } from 'os';
 import { User } from 'src/auth/entities/user.entity';
 
 @Controller('course')

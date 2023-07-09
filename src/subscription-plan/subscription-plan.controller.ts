@@ -9,6 +9,7 @@ import { validRoles } from 'src/auth/interfaces';
 
 @Controller('subscription')
 export class SubscriptionPlanController {
+  
   constructor(private readonly subscriptionPlanService: SubscriptionPlanService) { }
 
   /**

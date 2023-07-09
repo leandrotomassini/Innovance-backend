@@ -6,6 +6,7 @@ import { CreateInstructorDto } from './dto/create-instructor.dto';
 import { UpdateInstructorDto } from './dto/update-instructor.dto';
 import { Instructor } from './entities/instructor.entity';
 import { isUUID } from 'class-validator';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class InstructorService {
@@ -86,7 +87,7 @@ export class InstructorService {
       if (!instructor) {
         throw new NotFoundException(`Instructor plan with ID '${id}' not found.`);
       }
-     
+
       instructor.status = false;
 
       await this.instructorRepository.save(instructor);

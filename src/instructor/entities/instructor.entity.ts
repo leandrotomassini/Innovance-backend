@@ -28,7 +28,8 @@ export class Instructor {
 
     @ManyToOne(
         () => User,
-        (user) => user.instructor
+        (user) => user.instructor,
+        { eager: true }
     )
     user:User;
 

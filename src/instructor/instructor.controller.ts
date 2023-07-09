@@ -6,6 +6,7 @@ import { UpdateInstructorDto } from './dto/update-instructor.dto';
 import { Auth } from 'src/auth/decorators';
 import { validRoles } from 'src/auth/interfaces';
 
+
 @Controller('instructor')
 export class InstructorController {
   
@@ -13,7 +14,8 @@ export class InstructorController {
 
   @Auth(validRoles.admin)
   @Post()
-  create(@Body() createInstructorDto: CreateInstructorDto) {
+  create(
+    @Body() createInstructorDto: CreateInstructorDto) {
     return this.instructorService.create(createInstructorDto);
   }
   
