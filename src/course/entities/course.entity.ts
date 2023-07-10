@@ -22,6 +22,9 @@ export class Course {
     
     @Column('text')
     slug: string;
+    
+    @Column('text')
+    logo: string;
 
     @Column('boolean', {
         default: true

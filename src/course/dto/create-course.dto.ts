@@ -11,4 +11,7 @@ export class CreateCourseDto {
     @IsString()
     slug: string;
 
+    @IsString()
+    logo: string;
+
 }
