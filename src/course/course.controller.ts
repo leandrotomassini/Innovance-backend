@@ -27,6 +27,11 @@ export class CourseController {
   findOne(@Param('id') id: string) {
     return this.courseService.findOne(id);
   }
+
+  @Get('/slug/:slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.courseService.findBySlug(slug);
+  }
   
   @Auth(validRoles.admin)
   @Patch(':id')

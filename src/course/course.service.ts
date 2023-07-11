@@ -21,6 +21,17 @@ export class CourseService {
 
   async create(createCourseDto: CreateCourseDto, user: User) {
     try {
+      const { slug } = createCourseDto;
+
+      const existingCourse = await this.courseRepository
+        .createQueryBuilder('course')
+        .where('course.slug = :slug', { slug })
+        .getOne();
+
+      if (existingCourse) {
+        throw new BadRequestException('Slug is already used by another course.');
+      }
+
       const course = this.courseRepository.create({
         ...createCourseDto,
         user: user,
@@ -30,7 +41,11 @@ export class CourseService {
 
       return createCourseDto;
     } catch (error) {
-      this.handleDBExceptions(error);
+      if (error instanceof BadRequestException) {
+        throw error; // Re-throw the BadRequestException to send as response
+      } else {
+        this.handleDBExceptions(error);
+      }
     }
   }
 
@@ -57,6 +72,19 @@ export class CourseService {
 
     return course;
   }
+
+  async findBySlug(slug: string) {
+    const course = await this.courseRepository.createQueryBuilder('course')
+      .where('course.slug = :slug', { slug })
+      .getOne();
+
+    if (!course) {
+      throw new NotFoundException(`Course with slug: ${slug}, not found.`);
+    }
+
+    return course;
+  }
+
 
   async update(id: string, updateCourseDto: UpdateCourseDto, user: User) {
     try {
