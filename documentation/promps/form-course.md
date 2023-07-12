@@ -1,19 +1,31 @@
-Tengo un componente padre que se llama CourseLayoutComponent y dentro de su html muestra  <app-course-form></app-course-form>, desde CourseLayoutComponent  se lee la url, esta tiene dos posibilidades o dice 'nuevo-curso' o tiene una ruta de un curso llamada slug dentro de las propiedades de un curso. El problema que tengo es que cuando creo un nuevo curso haciendo clic en '+ Crear nuevo curso' desde el componente CourseLayoutComponent me lleva al app-course-form y completo todo el form y toco en 'guardar' de ahi quiero que me lleve a otra ves el componente app-course-form pero ahora con el slug del curso y quisiera que el boton de guardar del form en este caso te lleve a un metodo updateCourse que llame al metodo del servicio 'CoursesService' que se llama updateById y recibe el id del curso y los datos del curso a actualizar. lo mismo si voy desde el componente CourseLayoutComponent y toco en un curso de la tabla me tiene que llevar a editar un curso y no a crear nuevo. Tambien quiero que cuando estoy llendo a editar un curso y solo cuando estoy editando un curso osea que la url debe ser distinta a 'nuevo-curso' y va a tener el slug del curso, quiero que el form este con todos los inputs llenos con los valores del curso que estoy editando. necesito que me entreges el codigo fuente completo y correjido, y por favor no te olvides de nada de lo que te pedi chequea que hallas cumplido todo tal como te pido con total precicion. Angular 16 y Angular material.
-course-layout.component.html:
+Un curso luce asi:
+
+export interface Course {
+  idCourse?: string;
+  title: string;
+  description: string;
+  slug: string;
+  logo: string;
+}
+
+
+tengo un componente CourseFormComponent que tiene un formulario courseForm que si la ruta es nuevo-curso crea un cuerso nuevo y si no es porque estoy reutilizando el  CourseFormComponent pero esta vez para editar.
+
+componente padre course-layout.component.html:
 <div class="grid p-3">
 
   <div class="col-12 md:col-12 lg:col-6">
     <mat-card>
-      <mat-card-header class="p-3 d-flex align-items-center justify-content-center">
-        <div class="mr-2">
-          <mat-icon matListItemIcon [fontSet]="'material-icons-outlined'">price_change</mat-icon>
-        </div>
-        <div>
-          <mat-card-title>Curso:</mat-card-title>
+      <mat-card-header class="p-3 d-flex">
+        <div class="mr-2 arrow-back" (click)="arrowBack()">
+          <mat-icon matListItemIcon [fontSet]="'material-icons-outlined'">
+            arrow_back
+          </mat-icon>
+          Ver todos los cursos
         </div>
       </mat-card-header>
       <mat-card-content>
-        <app-course-form></app-course-form>
+        <app-course-form [courseSlug]="courseSlug"></app-course-form>
       </mat-card-content>
     </mat-card>
   </div>
@@ -55,7 +67,8 @@ course-layout.component.html:
 
 course-layout.component.ts:
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
 @Component({
   selector: 'app-course-layout',
   templateUrl: './course-layout.component.html',
@@ -63,15 +76,89 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class CourseLayoutComponent implements OnInit {
 
+  courseSlug: string = '';
 
-
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.snapshot.params['slug'] == 'nuevo-curso'
+    this.courseSlug = this.activatedRoute.snapshot.params['slug'];
+  }
+
+  arrowBack() {
+    this.router.navigate(['/studio/cursos/']);
   }
 
 }
+
+componente hijo course-form.component.ts:
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { CoursesService } from '../../services';
+import { Course } from '../../interfaces';
+
+@Component({
+  selector: 'app-course-form',
+  templateUrl: './course-form.component.html',
+  styleUrls: ['./course-form.component.css']
+})
+export class CourseFormComponent implements OnInit {
+
+  @Input() courseSlug: string = '';
+
+  courseForm: FormGroup;
+  course!: Course;
+
+  constructor(
+    private fb: FormBuilder,
+    private courseService: CoursesService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.courseForm = this.fb.group({
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      slug: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\\\\\\\\\\\\\\\\-]+$/)]],
+      logo: ['', [Validators.required]]
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.courseSlug !== 'nuevo-curso') {
+      this.courseService.findBySlug(this.courseSlug)
+        .subscribe((course) => {
+          this.course = course;
+          this.courseForm.patchValue(course);
+        });
+    }
+  }
+
+  saveCourse() {
+    const courseData = this.courseForm.value;
+    if (this.courseSlug !== 'nuevo-curso') {
+      this.courseService.updateById(this.courseSlug, courseData)
+        .subscribe(() => {
+          this.router.navigate([`/studio/cursos/${this.courseSlug}`]);
+        });
+    } else {
+      this.courseService.create(courseData)
+        .subscribe((newCourse) => {
+          this.router.navigateByUrl(`/studio/cursos/${newCourse.slug}`)
+            .then(() => {
+              window.location.reload();
+            });
+        });
+    }
+  }
+
+
+}
+
+
 course-form.component.html:
 <div class="title-course-container">
   <img [src]="courseForm.get('logo')?.value" *ngIf="courseForm.get('logo')?.value !==''" alt="Foto" class="course-logo-img">
@@ -110,60 +197,24 @@ course-form.component.html:
     </mat-form-field>
 
     <div class="button-row">
-      <button mat-button color="primary" type="submit" [disabled]="courseForm.invalid">Guardar curso</button>
+      <button mat-button color="primary" type="submit" [disabled]="courseForm.invalid">{{ courseSlug === 'nuevo-curso' ? 'Crear curso' : 'Actualizar curso' }}</button>
     </div>
   </form>
 </div>
-course-form.component.ts:
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import { CoursesService } from '../../services';
+Quiero que tengas en cuenta que el slug de un curso no es el id del curso, yo utilizo el slug por un tema de que queda lindo a la vista y es amigable para el seo, pero por el solo hecho de que al editar busque el curso por el slug no signifca que sea el ID, es unico, pero es solo un slug nada mas.
 
-@Component({
-  selector: 'app-course-form',
-  templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.css']
-})
-export class CourseFormComponent implements OnInit{
+Entonces lo que yo necesito es que cuando un usuario este editando un curso en un formulario, lo que siginifica que le curso ya existe y por lo tanto ya tiene su id, mostrar el id de ese curso en un console log al editar un curso presionando el boton de 'Actualizar curso'. Puntualmente estamos hablando de mostrar el valor de 'idCourse?: string;' de Course. 
 
-  courseForm: FormGroup;
-
-  constructor(
-    private fb: FormBuilder,
-    private courseService: CoursesService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
-    this.courseForm = this.fb.group({
-      title: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      slug: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\\\\\\\\-]+$/)]],
-      logo: ['', [Validators.required]]
-    });
-  }
-
-  ngOnInit(): void {
-   
-  }
-
-  saveCourse() {
-    this.courseService.create(this.courseForm.value).subscribe(() => {
-      this.router.navigateByUrl(`/studio/cursos/${this.courseForm.get('slug')?.value}`);
-    });
-  }
-
-}
+Entregame el codigo fuente completo y correjido de course-form. Para que tengas mas contexto esta creado con Angular y Angular material. Y el service es este:
 
 course.service.ts:
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { enviroment } from 'src/environments/environments';
+import { enviroment } from '../../../environments/environments';
 import { Course } from '../interfaces';
-
 
 @Injectable({
   providedIn: 'root'
@@ -198,6 +249,11 @@ export class CoursesService {
     return this.http.get<Course>(url);
   }
 
+  findBySlug(slug: string) {
+    const url = `${this.baseUrl}/course/slug/${slug}`;
+    return this.http.get<Course>(url);
+  }
+
   create(newCourse: Course) {
     const url = `${this.baseUrl}/course`;
     const headers = this.getHeaders();
@@ -217,3 +273,5 @@ export class CoursesService {
   }
 
 }
+
+Tambien quiero que ese idCourse venga de una variable Course asi como  course!: Course;, por lo tanto al cargar el componente editar deberia de tener esa variable curso con todos los datos del curso que estoy editando, y la variable idCourse, asique quiero que en el console.log al guardar un curso que estoy editando se muestre la variable idCourse que viene directamente de this.course y que verdaderamente este esa idCourse ya cargada ahi con todos los valores de course desde que cargo la pagina.
