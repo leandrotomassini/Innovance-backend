@@ -22,9 +22,9 @@ export class CourseInstructorController {
     return this.courseInstructorService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.courseInstructorService.findOne(id);
+  @Get(':idCourse')
+  findOneByIdCourse(@Param('idCourse') idCourse: string) {
+    return this.courseInstructorService.findByIdCourse(idCourse);
   }
 
   @Auth(validRoles.admin)

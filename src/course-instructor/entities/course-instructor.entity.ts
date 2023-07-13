@@ -13,13 +13,15 @@ export class CourseInstructor {
 
     @ManyToOne(
         () => Course,
-        (course) => course.courseInstructor
+        (course) => course.courseInstructor,
+        { eager: true }
     )
     course: Course;
 
     @ManyToOne(
         () => Instructor,
-        (instructor) => instructor.courseInstructor
+        (instructor) => instructor.courseInstructor,
+        { eager: true }
     )
     instructor: Instructor;
 

@@ -1,28 +1,25 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
-
 import { CreateCourseInstructorDto } from './dto/create-course-instructor.dto';
 import { UpdateCourseInstructorDto } from './dto/update-course-instructor.dto';
 import { CourseInstructor } from './entities/course-instructor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
-
 
 @Injectable()
 export class CourseInstructorService {
-
   private readonly logger = new Logger('CourseInstructorService');
 
   constructor(
     @InjectRepository(CourseInstructor)
     private readonly courseInstructorRepository: Repository<CourseInstructor>,
-    private readonly dataSource: DataSource,
   ) { }
 
   async create(createCourseInstructorDto: CreateCourseInstructorDto) {
     try {
-      const courseInstructor = this.courseInstructorRepository
-        .create(createCourseInstructorDto);
+      const courseInstructor = this.courseInstructorRepository.create(
+        createCourseInstructorDto,
+      );
 
       await this.courseInstructorRepository.save(courseInstructor);
 
@@ -33,40 +30,46 @@ export class CourseInstructorService {
   }
 
   async findAll() {
+    const courseInstructors = await this.courseInstructorRepository.find({
+      where: { status: true },
+    });
+
+    return courseInstructors;
+  }
+
+  async findByIdCourse(idCourse: string) {
+
+    if (!isUUID(idCourse)) {
+      throw new NotFoundException(`Invalid ID format: ${idCourse}`);
+    }
+
     const courseInstructor = await this.courseInstructorRepository
       .find({
-        where: { status: true },
+        where: { course: { idCourse } },
+        relations: ['course', 'instructor'],
       });
 
-    return courseInstructor;
-  }
-
-  async findOne(id: string) {
-
-    let courseInstructor: CourseInstructor;
-
-    if (isUUID(id)) {
-      courseInstructor = await this.courseInstructorRepository
-        .findOneBy({ idCourseInstructor: id });
-    } else {
-      throw new NotFoundException(`Id: ${id} not found.`);
-    }
-
     if (!courseInstructor) {
-      throw new NotFoundException(`Course-Instructor with id: ${id}, not found.`);
+      throw new NotFoundException(
+        `Course-Instructor with course ID: ${idCourse} not found.`,
+      );
     }
 
     return courseInstructor;
   }
+
 
 
   async update(id: string, updateCourseInstructorDto: UpdateCourseInstructorDto) {
     try {
-      const courseInstructor = await this.courseInstructorRepository
-        .findOneBy({ idCourseInstructor: id });
+      const courseInstructor = await this.courseInstructorRepository.findOne({
+        where: { idCourseInstructor: id },
+      });
 
       if (!courseInstructor) {
-        throw new NotFoundException(`Course-instructor plan with ID '${id}' not found.`);
+        throw new NotFoundException(
+          `Course-instructor plan with ID '${id}' not found.`,
+        );
       }
 
       Object.assign(courseInstructor, updateCourseInstructorDto);
@@ -81,11 +84,14 @@ export class CourseInstructorService {
 
   async remove(id: string) {
     try {
-      const courseInstructor = await this.courseInstructorRepository
-        .findOneBy({ idCourseInstructor: id });
+      const courseInstructor = await this.courseInstructorRepository.findOne({
+        where: { idCourseInstructor: id },
+      });
 
       if (!courseInstructor) {
-        throw new NotFoundException(`Course-instructor with ID '${id}' not found.`);
+        throw new NotFoundException(
+          `Course-instructor with ID '${id}' not found.`,
+        );
       }
 
       courseInstructor.status = false;
@@ -106,9 +112,8 @@ export class CourseInstructorService {
     }
 
     this.logger.error(error);
-    throw new InternalServerErrorException('Unexpected error, check server logs.');
+    throw new InternalServerErrorException(
+      'Unexpected error, check server logs.',
+    );
   }
 }
-
-
-// TODO: Revisar con postman
