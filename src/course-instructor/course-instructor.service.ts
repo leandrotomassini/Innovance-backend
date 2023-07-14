@@ -30,9 +30,10 @@ export class CourseInstructorService {
   }
 
   async findAll() {
-    const courseInstructors = await this.courseInstructorRepository.find({
-      where: { status: true },
-    });
+    const courseInstructors = await this.courseInstructorRepository
+      .find({
+        where: { status: true },
+      });
 
     return courseInstructors;
   }
@@ -45,7 +46,10 @@ export class CourseInstructorService {
 
     const courseInstructor = await this.courseInstructorRepository
       .find({
-        where: { course: { idCourse } },
+        where: {
+          course: { idCourse },
+          status: true
+        },
         relations: ['course', 'instructor'],
       });
 
@@ -84,9 +88,10 @@ export class CourseInstructorService {
 
   async remove(id: string) {
     try {
-      const courseInstructor = await this.courseInstructorRepository.findOne({
-        where: { idCourseInstructor: id },
-      });
+      const courseInstructor = await this.courseInstructorRepository
+        .findOne({
+          where: { idCourseInstructor: id },
+        });
 
       if (!courseInstructor) {
         throw new NotFoundException(
