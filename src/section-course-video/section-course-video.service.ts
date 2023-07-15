@@ -43,12 +43,16 @@ export class SectionCourseVideoService {
   }
 
   async findOne(id: string) {
-
     let sectionCourseVideo: SectionCourseVideo;
 
     if (isUUID(id)) {
       sectionCourseVideo = await this.sectionCourseVideoRepository
-        .findOneBy({ idSectionCourseVideo: id });
+        .createQueryBuilder('sectionCourseVideo')
+        .leftJoinAndSelect('sectionCourseVideo.videoCourse', 'videoCourse')
+        .leftJoinAndSelect('sectionCourseVideo.sectionCourse', 'sectionCourse')
+        .where('sectionCourseVideo.idSectionCourseVideo = :id', { id })
+        .andWhere('sectionCourseVideo.status = true')
+        .getOne();
     } else {
       throw new NotFoundException(`Id: ${id} not found.`);
     }

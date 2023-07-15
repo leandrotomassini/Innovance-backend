@@ -3,7 +3,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { VideoCourseService } from './video-course.service';
 import { CreateVideoCourseDto } from './dto/create-video-course.dto';
 import { UpdateVideoCourseDto } from './dto/update-video-course.dto';
-import { Auth, GetUser } from 'src/auth/decorators';
+import { Auth } from 'src/auth/decorators';
 import { validRoles } from 'src/auth/interfaces';
 
 @Controller('video-course')
