@@ -63,6 +63,18 @@ export class SectionCourseService {
     return sectionCourse;
   }
 
+  async findAllByCourseId(idCourse: string) {
+    const sectionsCourse = await this.sectionCourseRepository
+      .find({
+        where: {
+          status: true,
+          course: { idCourse },
+        },
+      });
+
+    return sectionsCourse;
+  }
+
   async update(id: string, updateSectionCourseDto: UpdateSectionCourseDto) {
 
     const { ...toUpdate } = updateSectionCourseDto;
@@ -120,6 +132,3 @@ export class SectionCourseService {
     throw new InternalServerErrorException('Unexpected error, check server logs.');
   }
 }
-
-
-// TODO: Revisar con postman

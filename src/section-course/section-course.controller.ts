@@ -27,6 +27,11 @@ export class SectionCourseController {
     return this.sectionCourseService.findOne(id);
   }
 
+  @Get('/by-course-id/:id')
+  findSectionByCourseId(@Param('id') id: string) {
+    return this.sectionCourseService.findAllByCourseId(id);
+  }
+
   @Auth(validRoles.instructor)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSectionCourseDto: UpdateSectionCourseDto) {

@@ -7,5 +7,8 @@ export class CreateVideoCourseDto {
     
     @IsString()
     url: string;
+    
+    @IsString()
+    number: string;
 
 }

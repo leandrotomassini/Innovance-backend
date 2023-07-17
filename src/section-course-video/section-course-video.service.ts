@@ -34,12 +34,12 @@ export class SectionCourseVideoService {
 
 
   async findAll() {
-    const sectionCourseVideo = await this.sectionCourseVideoRepository
-      .find({
-        where: { status: true },
-      });
+    const sectionCourseVideos = await this.sectionCourseVideoRepository.find({
+      where: { status: true },
+      relations: ['videoCourse', 'sectionCourse'],
+    });
 
-    return sectionCourseVideo;
+    return sectionCourseVideos;
   }
 
   async findOne(id: string) {
@@ -62,6 +62,18 @@ export class SectionCourseVideoService {
     }
 
     return sectionCourseVideo;
+  }
+
+  async findBySectionId(idSection: string) {
+    const sectionCourseVideos = await this.sectionCourseVideoRepository.find({
+      where: {
+        status: true,
+        sectionCourse: { sectionCourseId: idSection }, // Aquí se establece la condición de búsqueda
+      },
+      relations: ['videoCourse', 'sectionCourse'],
+    });
+
+    return sectionCourseVideos;
   }
 
   async update(id: string, updateSectionCourseVideoDto: UpdateSectionCourseVideoDto) {

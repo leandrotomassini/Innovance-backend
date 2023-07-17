@@ -16,6 +16,9 @@ export class VideoCourse {
     
     @Column('text')
     url: string;
+    
+    @Column('text')
+    number: string;
 
     @Column('boolean', {
         default: true

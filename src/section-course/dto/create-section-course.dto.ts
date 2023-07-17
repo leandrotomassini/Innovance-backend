@@ -13,5 +13,8 @@ export class CreateSectionCourseDto {
     
     @IsString()
     title: string;
+    
+    @IsString()
+    difficultyLevel: string;
 
 }
