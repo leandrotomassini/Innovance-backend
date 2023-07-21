@@ -38,9 +38,10 @@ export class SectionCourseService {
 
   async findAll() {
 
-    const sectionCourse = await this.sectionCourseRepository.find({
-      where: { status: true },
-    });
+    const sectionCourse = await this.sectionCourseRepository
+      .find({
+        where: { status: true },
+      });
 
     return sectionCourse;
   }
