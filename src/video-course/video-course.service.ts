@@ -26,7 +26,7 @@ export class VideoCourseService {
 
       await this.videoCourseRepository.save(videoCourse);
 
-      return createVideoCourseDto;
+      return videoCourse; 
     } catch (error) {
       this.handleDBExceptions(error);
     }
