@@ -11,4 +11,10 @@ export class CreateVideoCourseDto {
     @IsString()
     number: string;
 
+    @IsString()
+    link: string;
+
+    @IsString()
+    description: string;
+
 }

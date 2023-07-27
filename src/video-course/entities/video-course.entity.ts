@@ -16,6 +16,12 @@ export class VideoCourse {
     
     @Column('text')
     url: string;
+
+    @Column('text')
+    link: string;
+
+    @Column('text')
+    description: string;
     
     @Column('text')
     number: string;
