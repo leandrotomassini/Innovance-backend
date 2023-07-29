@@ -34,10 +34,11 @@ export class SectionCourseVideoService {
 
 
   async findAll() {
-    const sectionCourseVideos = await this.sectionCourseVideoRepository.find({
-      where: { status: true },
-      relations: ['videoCourse', 'sectionCourse'],
-    });
+    const sectionCourseVideos = await this.sectionCourseVideoRepository
+      .find({
+        where: { status: true },
+        relations: ['videoCourse', 'sectionCourse'],
+      });
 
     return sectionCourseVideos;
   }
