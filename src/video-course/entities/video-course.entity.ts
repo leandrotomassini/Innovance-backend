@@ -21,6 +21,12 @@ export class VideoCourse {
     link: string;
 
     @Column('text')
+    thumbnailUrl: string;
+    
+    @Column('text')
+    previewAnimation: string;
+
+    @Column('text')
     description: string;
     
     @Column('text')

@@ -4,10 +4,10 @@ export class CreateCourseDto {
 
     @IsString()
     title: string;
-    
+
     @IsString()
     description: string;
-    
+
     @IsString()
     slug: string;
 

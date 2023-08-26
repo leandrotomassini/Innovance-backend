@@ -17,4 +17,11 @@ export class CreateVideoCourseDto {
     @IsString()
     description: string;
 
+    @IsString()
+    thumbnailUrl: string;
+    
+    @IsString()
+    previewAnimation: string;
+    
+
 }
