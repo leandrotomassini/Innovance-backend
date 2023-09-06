@@ -6,7 +6,6 @@ import { CreateInstructorDto } from './dto/create-instructor.dto';
 import { UpdateInstructorDto } from './dto/update-instructor.dto';
 import { Instructor } from './entities/instructor.entity';
 import { isUUID } from 'class-validator';
-import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class InstructorService {
