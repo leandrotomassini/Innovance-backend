@@ -14,4 +14,7 @@ export class CreateCourseDto {
     @IsString()
     logo: string;
 
+    @IsString()
+    frontPage: string;
+
 }

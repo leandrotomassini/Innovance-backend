@@ -16,15 +16,18 @@ export class Course {
 
     @Column('text')
     title: string;
-    
+
     @Column('text')
     description: string;
-    
+
     @Column('text')
     slug: string;
-    
+
     @Column('text')
     logo: string;
+
+    @Column('text')
+    frontPage: string;
 
     @Column('boolean', {
         default: true
@@ -53,7 +56,7 @@ export class Course {
     courseTaken: CourseTaken;
 
     @OneToMany(
-        ()=>CertificateCourse,
+        () => CertificateCourse,
         (certificateCourse) => certificateCourse.course
     )
     certificateCourse: CertificateCourse;
