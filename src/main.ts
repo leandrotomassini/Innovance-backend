@@ -8,7 +8,9 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+  });
 
   const logger = new Logger('Bootstrap');
 
@@ -22,8 +24,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Teslo RESTful API')
-    .setDescription('Teslo shop endpoints')
+    .setTitle('Innovance RESTful API')
+    .setDescription('Innovance endpoints')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

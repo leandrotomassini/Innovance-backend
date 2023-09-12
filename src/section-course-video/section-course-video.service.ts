@@ -69,7 +69,7 @@ export class SectionCourseVideoService {
     const sectionCourseVideos = await this.sectionCourseVideoRepository.find({
       where: {
         status: true,
-        sectionCourse: { sectionCourseId: idSection }, // Aquí se establece la condición de búsqueda
+        sectionCourse: { sectionCourseId: idSection },
       },
       relations: ['videoCourse', 'sectionCourse'],
     });

@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD} # Contraseña de la base de datos PostgreSQL
       POSTGRES_DB: ${DB_NAME} # Nombre de la base de datos PostgreSQL
-    container_name: teslodb # Nombre del contenedor de la base de datos
+    container_name: innovanceDB # Nombre del contenedor de la base de datos
     volumes:
       - ./postgres:/var/lib/postgresql/data # Utiliza un volumen para persistir los datos de la base de datos
 

@@ -32,8 +32,6 @@ export class SectionCourseVideoController {
     return this.sectionCourseVideoService.findBySectionId(id);
   }
 
-
-
   @Auth(validRoles.instructor)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSectionCourseVideoDto: UpdateSectionCourseVideoDto) {
