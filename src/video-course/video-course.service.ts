@@ -59,6 +59,8 @@ export class VideoCourseService {
     return videoCourse;
   }
 
+
+
   async update(id: string, updateVideoCourseDto: UpdateVideoCourseDto) {
     try {
       const videoCourse = await this.videoCourseRepository.findOneBy({ idVideo: id });
