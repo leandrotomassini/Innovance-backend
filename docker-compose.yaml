@@ -2,23 +2,23 @@ version: '3'
 
 services:
   db:
-    image: postgres:14.3 # Utiliza la imagen oficial de PostgreSQL versión 14.3
-    restart: always # Configura el reinicio automático del contenedor en caso de fallos
+    image: postgres:14.3
+    restart: always
     ports:
-      - "5432:5432" # Mapea el puerto 5432 del contenedor al puerto 5432 del host para permitir la conexión a la base de datos PostgreSQL
+      - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD} # Contraseña de la base de datos PostgreSQL
-      POSTGRES_DB: ${DB_NAME} # Nombre de la base de datos PostgreSQL
-    container_name: innovanceDB # Nombre del contenedor de la base de datos
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    container_name: innovanceDB
     volumes:
-      - ./postgres:/var/lib/postgresql/data # Utiliza un volumen para persistir los datos de la base de datos
+      - ./postgres:/var/lib/postgresql/data
 
   pgadmin:
-    image: dpage/pgadmin4:7.3 # Utiliza la imagen oficial de PGAdmin versión 7.3
-    restart: always # Configura el reinicio automático del contenedor en caso de fallos
+    image: dpage/pgadmin4:7.3
+    restart: always
     ports:
-      - "8080:80" # Mapea el puerto 8080 del contenedor al puerto 80 del host para acceder a la interfaz web de PGAdmin
+      - "8080:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL} # Correo electrónico por defecto para el administrador de PGAdmin
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # Contraseña por defecto para el administrador de PGAdmin
-    container_name: pgadmin # Nombre del contenedor de PGAdmin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    container_name: pgadmin
