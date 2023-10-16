@@ -1,17 +1,6 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:14.3
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    container_name: innovancedb
-    volumes:
-      - ./postgres:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:7.3
@@ -19,6 +8,6 @@ services:
     ports:
       - "8080:80"
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: soporte@test.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
     container_name: pgadmin

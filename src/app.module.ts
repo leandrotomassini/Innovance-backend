@@ -30,6 +30,7 @@ import { SectionCourseModule } from './section-course/section-course.module';
 import { VideoCourseModule } from './video-course/video-course.module';
 import { ResourceVideoCourseModule } from './resource-video-course/resource-video-course.module';
 import { SectionCourseVideoModule } from './section-course-video/section-course-video.module';
+import { VideoCommentModule } from './video-comment/video-comment.module';
 
 
 
@@ -76,6 +77,7 @@ import { SectionCourseVideoModule } from './section-course-video/section-course-
     VideoCourseModule,
     ResourceVideoCourseModule,
     SectionCourseVideoModule,
+    VideoCommentModule,
   ],
   controllers: [],
   providers: [],
