@@ -4,6 +4,7 @@ import { VideoTaken } from 'src/video-taken/entities/video-taken.entity';
 import { AskVideo } from 'src/ask-video/entities/ask-video.entity';
 import { ResourceVideoCourse } from 'src/resource-video-course/entities/resource-video-course.entity';
 import { SectionCourseVideo } from 'src/section-course-video/entities/section-course-video.entity';
+import { VideoComment } from 'src/video-comment/entities/video-comment.entity';
 
 @Entity()
 export class VideoCourse {
@@ -54,6 +55,12 @@ export class VideoCourse {
         (resourceVideoCourse) => resourceVideoCourse.videoCourse
     )
     resourceVideoCourse: ResourceVideoCourse;
+
+    @OneToMany(
+        () => VideoComment,
+        (videoComment) => videoComment.videoCourse
+    )
+    videoComment: VideoComment;
 
 
     @OneToMany(

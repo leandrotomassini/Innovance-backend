@@ -1,11 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+
 import { CreateVideoCommentDto } from './dto/create-video-comment.dto';
 import { UpdateVideoCommentDto } from './dto/update-video-comment.dto';
+import { VideoComment } from './entities/video-comment.entity';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class VideoCommentService {
+
+  private readonly logger = new Logger('VideoCommentService');
+
+  constructor(
+    @InjectRepository(VideoComment)
+    private readonly videoCommentRepository: Repository<VideoComment>,
+    private readonly dataSource: DataSource,
+  ) { }
+
   create(createVideoCommentDto: CreateVideoCommentDto) {
-    return 'This action adds a new videoComment';
+    return 'ok';
   }
 
   findAll() {

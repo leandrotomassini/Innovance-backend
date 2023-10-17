@@ -13,6 +13,7 @@ import { CertificateCourse } from "src/certificate-course/entities/certificate-c
 import { AskVideo } from "src/ask-video/entities/ask-video.entity";
 import { LearningRoute } from "src/learning-route/entities/learning-route.entity";
 import { Instructor } from "src/instructor/entities/instructor.entity";
+import { VideoComment } from "src/video-comment/entities/video-comment.entity";
 
 
 @Entity('users')
@@ -128,6 +129,12 @@ export class User {
         (instructor) => instructor.user
     )
     instructor: Instructor
+
+    @OneToMany(
+        () => VideoComment,
+        (videoComment) => videoComment.user
+    )
+    videoComment: VideoComment
 
     @BeforeUpdate()
     checkFieldsBeforeUpdate() {
