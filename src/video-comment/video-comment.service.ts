@@ -52,7 +52,11 @@ export class VideoCommentService {
     let comment: VideoComment;
 
     if (isUUID(id)) {
-      comment = await this.videoCommentRepository.findOneBy({ idComment: id });
+      comment = await this.videoCommentRepository
+        .createQueryBuilder("comment")
+        .where("comment.idComment = :id", { id })
+        .leftJoinAndSelect("comment.user", "user")
+        .getOne();
     } else {
       throw new NotFoundException(`Id: ${id} not found.`);
     }
@@ -64,6 +68,7 @@ export class VideoCommentService {
     return comment;
   }
 
+
   async findAllByVideoId(idVideo: string) {
 
     const comments = await this.videoCommentRepository.find({
@@ -74,52 +79,65 @@ export class VideoCommentService {
   }
 
   async update(id: string, updateVideoComment: UpdateVideoCommentDto, user: User) {
-    // TODO: Verificar que el comentario pertenezca al usuario.
-    // TODO: Verificar si es admin no necesita ser el usuario.
     try {
-      const comment = await this.videoCommentRepository.findOneBy({ idComment: id });
+      const comment = await this.videoCommentRepository
+        .createQueryBuilder("comment")
+        .where("comment.idComment = :id", { id })
+        .leftJoinAndSelect("comment.user", "user")
+        .getOne();
 
       if (!comment) {
-        throw new NotFoundException(`Comment with ID '${id}' not found.`);
+        throw new NotFoundException(`Comentario con ID '${id}' no encontrado.`);
       }
 
-      Object.assign(comment, updateVideoComment);
-      comment.updatedAt = new Date();
-      comment.user = user;
+      if (comment.user && (comment.user.id === user.id || user.roles.includes('admin'))) {
+        Object.assign(comment, updateVideoComment);
+        comment.updatedAt = new Date();
+        comment.user = user;
 
-      await this.videoCommentRepository.save(comment);
+        await this.videoCommentRepository.save(comment);
 
-      return comment;
+        return comment;
+      } else {
+        throw new BadRequestException('No tienes permiso para actualizar este comentario.');
+      }
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
+
+
 
   async remove(id: string, user: User) {
-    // TODO: Verificar que el comentario pertenezca al usuario.
-    // TODO: Verificar si es admin no necesita ser el usuario.
-
     try {
-
-      const comment = await this.videoCommentRepository.findOneBy({ idComment: id });
-
+      const comment = await this.videoCommentRepository
+        .createQueryBuilder("comment")
+        .where("comment.idComment = :id", { id })
+        .leftJoinAndSelect("comment.user", "user")
+        .getOne();
+  
       if (!comment) {
-        throw new NotFoundException(`Comment with ID '${id}' not found.`);
+        throw new NotFoundException(`Comentario con ID '${id}' no encontrado.`);
       }
-
-      comment.status = false;
-      comment.updatedAt = new Date();
-      comment.user = user;
-
-      await this.videoCommentRepository.save(comment);
-
-      return {
-        message: `Comment with ID '${id}' has been deactivated.`,
-      };
+  
+      if (comment.user && (comment.user.id === user.id || user.roles.includes('admin'))) {
+        comment.status = false;
+        comment.updatedAt = new Date();
+        comment.user = user;
+  
+        await this.videoCommentRepository.save(comment);
+  
+        return {
+          message: `Comentario con ID '${id}' ha sido desactivado.`,
+        };
+      } else {
+        throw new BadRequestException('No tienes permiso para eliminar este comentario.');
+      }
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
+  
 
   private handleDBExceptions(error: any): never {
     if (error.code === '23505') {
