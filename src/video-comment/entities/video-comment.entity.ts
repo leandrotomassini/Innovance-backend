@@ -19,13 +19,15 @@ export class VideoComment {
 
     @ManyToOne(
         () => User,
-        (user) => user.course
+        (user) => user.course,
+        { eager: true }
     )
     user: User;
 
     @ManyToOne(
         () => VideoCourse,
-        (videoCourse) => videoCourse.videoComment
+        (videoCourse) => videoCourse.videoComment,
+        { eager: true }
     )
     videoCourse: VideoCourse;
 
