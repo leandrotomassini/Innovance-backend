@@ -24,3 +24,5 @@ http://localhost:3000/api/seed
 yarn start dev 
 ```
 
+chimaobi.manley@free2ducks.com
+
